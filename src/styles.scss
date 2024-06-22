@@ -37,7 +37,7 @@ $booking-app-theme: mat.define-theme(
 // @include mat.color-variants-backwards-compatibility($theme);
 /* You can add global styles to this file, and also import other style files */
 
-
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined");
 html,
 body {
   font-family: Poppins,sans-serif!important;
@@ -51,7 +51,8 @@ body {
  // opacity: 0.3;
   background: radial-gradient(#d2f1df, #d3d7fa, #bad8f4) 0% 0%/400% 400%;
   animation: 15s ease 0s infinite normal none running gradient;
-  z-index: -1;
+  margin: 0;
+  padding: 0;
   
 }
 
@@ -877,6 +878,9 @@ html .mat-drawer-container {
 }
 .m-0 {
   margin: 0 !important;
+}
+.m-0-auto {
+  margin: 0 auto!important;
 }
 .m-2 {
   margin: 2px !important;
@@ -2091,7 +2095,7 @@ html .mat-drawer-container {
 [dir="ltr"] .m-r-4 {
   margin-right: 4px !important;
 }
-[dir="ltr"] .m-r-6 {
+ .m-r-6 {
   margin-right: 7px !important;
 }
 [dir="ltr"] .m-r-8 {
@@ -2534,3 +2538,32 @@ html .mat-drawer-container {
   color: #fc4b6c !important;
   margin-top: 4px;
 }
+
+.cdk-overlay-dark-backdrop {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.cdk-overlay-pane {
+  // padding-bottom: 20px!important;
+  // padding-left: 20px!important;
+  // padding-right: 5px!important;
+  background: white;
+  border-radius: 8px;
+}
+
+ .mat-subtitle-1 {
+  line-height: 26px;
+  letter-spacing: normal;
+  color: #2a3547;
+}
+
+.d-align {
+  display: grid; 
+  grid-template-columns: auto 1fr; 
+  align-items: center;
+}
+
+.logo {
+  max-width: 168px;
+}
+

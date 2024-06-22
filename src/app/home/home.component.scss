@@ -1,0 +1,136 @@
+:host {
+  width: 100%;
+}
+
+.active {
+  background-color: #26c6da !important;
+  border-radius: 7px !important;
+  color: #fff !important;
+
+  mat-icon,
+  div[matListItemTitle] {
+    color: inherit !important;
+  }
+}
+
+.branding {
+  width: 270px;
+}
+
+button {
+  &.image {
+    background-color: transparent;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 50%;
+  }
+}
+
+.example-container {
+  background: #eef5f9;
+  height: 100%;
+  width: auto;
+}
+
+.left-menu {
+  padding: 18px;
+}
+
+.logo {
+  max-width: 168px;
+}
+
+.mat-drawer {
+  width: 270px;
+}
+
+mat-drawer {
+  top: -50px;
+}
+
+mat-list-item {
+  align-items: center;
+  border-radius: 7px;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: flex;
+  height: 45px;
+  margin-bottom: 2px;
+  padding: 0 24px;
+
+  &:hover {
+    border-radius: 7px !important;
+  }
+}
+
+.mdc-list-item__primary-text {
+  font-family: Poppins, sans-serif !important;
+}
+
+.nav-container {
+  position: absolute;
+  top: 50px;
+  width: 100%;
+}
+
+.send-text-form {
+  margin-top: 30px;
+  width: 100%;
+}
+
+.text-white {
+  color: #fff;
+  text-decoration: none;
+}
+
+.topbar {
+  background: #1e88e5 !important;
+  box-shadow: 1px 0 10px #00000080;
+  height: 70px;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+
+  button {
+    color: #fff;
+  }
+}
+
+.user-profile {
+  background-size: cover !important;
+  height: 150px;
+  position: relative;
+
+  .profile-img {
+    border-radius: 100%;
+    margin-left: 30px;
+    padding: 31px 0;
+    position: relative;
+    width: 50px;
+    z-index: 1;
+
+    &::before {
+      animation: 2.5s blow 0s linear infinite;
+      border-radius: 50%;
+      content: "";
+      height: 50px;
+      margin: 0 auto;
+      position: absolute;
+      top: 31px;
+      width: 50px;
+      z-index: 0;
+    }
+  }
+
+  .profile-text {
+    cursor: pointer;
+    position: relative;
+
+    > a {
+      background: #00000080;
+      padding: 6px 30px;
+      white-space: nowrap;
+    }
+  }
+}

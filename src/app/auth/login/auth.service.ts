@@ -6,6 +6,7 @@ import {
   UserCredential,
   authState,
   createUserWithEmailAndPassword,
+  getAdditionalUserInfo,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
@@ -60,6 +61,7 @@ export class AuthService {
         this.router.navigate(['/home']);
       }
     });
+  
     return userCredential;
   }
 

@@ -1,11 +1,129 @@
+<mat-toolbar class="mat-toolbar topbar mat-toolbar-single-row">
+  <div class="branding d-none d-lg-flex align-items-center">
+    <a class="d-flex logo">
+      <img
+        src="./assets/images/logos/gym-book.png"
+        alt="logo"
+        class="align-middle m-2 logo"
+      />
+    </a>
+  </div>
 
+  <button
+    (click)="drawer.toggle()"
+    mat-icon-button
+    color="accent"
+    aria-label="Menu Toggle Button"
+  >
+    <mat-icon>menu</mat-icon>
+  </button>
+  <button mat-icon-button color="accent" aria-label="Search Button">
+    <mat-icon>search</mat-icon>
+  </button>
+  <span class="flex-1-auto"></span>
+  <button
+    class="m-r-6"
+    mat-icon-button
+    color="accent"
+    aria-label="Messages Button"
+  >
+    <mat-icon>message</mat-icon>
+  </button>
+  <button
+    class="m-r-6"
+    mat-icon-button
+    color="accent"
+    aria-label="Messages Button"
+  >
+    <mat-icon>mail</mat-icon>
+  </button>
+  <button
+    (click)="openComponentOverlay()"
+    class="m-r-6 image"
+    mat-mini-fab
+    color="primary"
+    aria-label="User Profile Button"
+    [style.backgroundImage]="'url(' + auth.currentUser?.photoURL"
+  ></button>
+</mat-toolbar>
+<mat-drawer-container class="example-container">
+  <mat-drawer #drawer mode="side" opened>
+    <div class="nav-container">
+      <ng-scrollbar>
+       
+          <div class="user-profile profile-bar" style="background: url(assets/images/gym_ill.jpg) no-repeat;">
+          <div class="profile-img">
+            <img src="{{auth.currentUser?.photoURL}}" alt="user" width="50" class="rounded-circle">
+          </div>
+          <div class="profile-text">
+         <a class="text-white d-flex f-s-16" href="">{{auth.currentUser?.displayName}}
+          <mat-icon class="icon-18 m-l-auto">keyboard_arrow_down</mat-icon>
+         </a> 
+        
+      </div>
+      </div>
+      <mat-nav-list class="left-menu">
+        @for (menuItem of menuItems; track menuItem) {
 
-<button
-  (click)="logout()"
-  mat-mini-fab
-  color="primary"
-  aria-label="logout button"
->
-<i class="fa fa-sign-out" aria-hidden="true"></i>
+        <mat-list-item routerLink={{menuItem.link}} routerLinkActive="active">
+          <mat-icon matListItemIcon>{{ menuItem.icon }}</mat-icon>
+          <div matListItemTitle>{{ menuItem.name }}</div>
+        </mat-list-item>
 
-</button>
+        }
+      </mat-nav-list>
+      </ng-scrollbar>
+    </div>
+  </mat-drawer>
+  <mat-drawer-content>
+    <main class="pageWrapper maxWidth">
+      <app-breadcrumb></app-breadcrumb>
+    </main>
+  
+    <!-- <form class="send-text-form" [formGroup]="myForm" (ngSubmit)="onSubmit()">
+      <div class="col-lg-6">
+        <mat-card>
+          <mat-card-header class="m-0-auto">
+            <h3>Send SMS Message</h3>
+          </mat-card-header>
+          <div clas="m-b-12"></div>
+          <mat-card-content>
+            <mat-form-field
+              class="mat-mdc-form-field w-100"
+              appearance="outline"
+            >
+              <mat-label for="number">Number</mat-label>
+              <input
+                matInput
+                id="number"
+                formControlName="number"
+                type="text"
+                placeholder="number"
+              />
+
+              <mat-error
+                *ngIf="
+                  myForm.get('number')?.invalid && myForm.get('number')?.touched
+                "
+                >Invalid phone number</mat-error
+              >
+            </mat-form-field>
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Message</mat-label>
+              <textarea matInput formControlName="body"></textarea>
+            </mat-form-field>
+            <mat-card-footer class="d-flex justify-content-center">
+              <button
+                mat-stroked-button
+                type="submit"
+                [disabled]="myForm.invalid"
+              >
+                Send Text Message
+              </button>
+            </mat-card-footer>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </form> -->
+  </mat-drawer-content>
+</mat-drawer-container>
