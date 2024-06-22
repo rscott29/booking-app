@@ -60,7 +60,7 @@ export const appConfig: ApplicationConfig = {
     //     isTokenAutoRefreshEnabled: true,
     //   });
     // }),
-    // provideFirestore(() => getFirestore()),
+    ,provideFirestore(() => getFirestore()),
     // provideDatabase(() => getDatabase()),
     // provideFunctions(() => getFunctions()),
     // provideMessaging(() => getMessaging()),

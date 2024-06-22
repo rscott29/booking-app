@@ -6,9 +6,9 @@
           <div class="text-center">
             <a href="/">
               <img
-                src="./assets/images/logos/dark-logo.svg"
+                src="./assets/images/logos/gym-book-black.png"
                 alt="logo"
-                class="align-middle m-2"
+                class="align-middle m-2 logo"
               />
             </a>
           </div>
@@ -57,7 +57,7 @@
           </div>
           <form [formGroup]="loginForm" class="m-t-30" (ngSubmit)="login()">
             <mat-label class="f-w-600 f-s-14 m-b-12 d-block">Email</mat-label>
-            <mat-form-field class="mat-mdc-form-field w-100" appearance="outline">
+            <mat-form-field class="w-100" appearance="outline">
               <input
                 matInput
                 formControlName="username"
@@ -101,7 +101,7 @@
             <button type="submit" class="w-100" mat-flat-button color="primary" [disabled]="loginForm.invalid">Sign In</button>
           </form>
           <span class="d-block f-w-500 text-center m-t-24">
-            New to Materialpro?
+            New to Gym Book?
             <a class="text-decoration-none text-primary f-w-500 f-s-14" [routerLink]="['/signup']">Create an account</a>
           </span>
           

@@ -1,22 +1,141 @@
-import { Component } from '@angular/core';
-import { signOut } from 'firebase/auth';
-import { Router } from '@angular/router';
+import { Component, ViewContainerRef } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { AuthService } from '../auth/login/auth.service';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatIconModule } from '@angular/material/icon';
+import { Auth } from '@angular/fire/auth';
+import { GenericOverlayComponent } from '../shared/components/generic-overlay/generic-overlay.component';
+import { OverlayService } from '../shared/components/overlay.service';
+import { OverlayConfigModel } from '../shared/components/generic-overlay/model/overlay-config-model';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 
+import {
+  Firestore,
+  addDoc,
+  collection,
+} from '@angular/fire/firestore';
+import { CommonModule } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import parsePhoneNumber from 'libphonenumber-js';
+import { debounceTime } from 'rxjs';
+import { MatCardModule } from '@angular/material/card';
+import { MatListModule } from '@angular/material/list'
+import {  NgScrollbarModule } from 'ngx-scrollbar';
+import { RouterLink, RouterLinkActive } from '@angular/router';
+import { BreadcrumbComponent } from '../shared/components/breadcrumb/breadcrumb.component';
+
+export interface MenuItems {
+  name: string;
+  icon: string;
+  link: string;
+}
+ 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [MatButtonModule],
+  imports: [
+    BreadcrumbComponent,
+    CommonModule,
+    MatButtonModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatListModule,
+    MatCardModule,
+    ReactiveFormsModule,
+    NgScrollbarModule,
+    RouterLink,
+    RouterLinkActive
+  ],
+
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
 export class HomeComponent {
-  public currentUser: string | null | undefined;
-  constructor(private authService: AuthService, private router: Router) {
-   // this.currentUser = authService.getLoggedInUser()?.displayName
+  showFiller = false;
+  myForm: FormGroup;
+  formattedNumber: string = '';
+  menuItems: MenuItems[] = [
+    {
+      name: 'Photos',
+      icon: 'photo_camera',
+      link: '/home'
+    },
+    {
+      name: 'Recipes',
+      icon: 'cookie',
+      link: '/foo'
+    },
+    {
+      name: 'Work',
+      icon: 'group',
+      link : '/bar'
+    },
+  ];
+  constructor(
+    private authService: AuthService,
+    public auth: Auth,
+    private overlayService: OverlayService,
+    private viewContainerRef: ViewContainerRef,
+    private fb: FormBuilder,
+    private readonly firestore: Firestore
+  ) {
+    this.myForm = this.fb.group({
+      number: ['', [Validators.required]], 
+      body: ['', Validators.required],
+    });
+
+    this.myForm.get('number')!.valueChanges
+    .pipe(debounceTime(1000)) 
+    .subscribe(value => {
+      this.formattedNumber = value;
+      this.onInput();
+    });
   }
-   logout() {
-    this.authService.logout()
+  logout() {
+    this.authService.logout();
+  }
+
+  openComponentOverlay() {
+    const config: OverlayConfigModel = {
+      position: { top: '59px', right: '16px' },
+      hasBackdrop: true,
+      backdropClass: 'cdk-overlay-transparent-backdrop',
+    };
+    this.overlayService.open(
+      GenericOverlayComponent,
+      this.viewContainerRef,
+      {
+        title: 'User Profile',
+        content: 'foo bar',
+      },
+      config
+    );
+  }
+  onInput() {
+    const parsedNumber = parsePhoneNumber(this.formattedNumber, 'GB');
+    if (parsedNumber) {
+      this.formattedNumber = parsedNumber.number.toString();
+      this.myForm.get('number')!.setValue(this.formattedNumber, { emitEvent: false });
+    }
+  }
+  async onSubmit() {
+    if (this.myForm.valid) {
+      return await addDoc(collection(this.firestore, 'messages'), {
+        to: this.myForm.value.number,
+        body: this.myForm.value.body,
+      });
+    } else {
+      throw new Error('failed to send message');
+    }
   }
 }
