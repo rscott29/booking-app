@@ -1,0 +1,47 @@
+.mat-mdc-menu-item {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: flex-start;
+  overflow: hidden;
+  padding: 0;
+  padding-left: var(--mat-menu-item-leading-spacing);
+  padding-right: var(--mat-menu-item-trailing-spacing);
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  width: 100%;
+  text-align: left;
+  box-sizing: border-box;
+  color: inherit;
+  font-size: inherit;
+  background: none;
+  text-decoration: none;
+  margin: 0;
+  align-items: center;
+  min-height: 48px;
+  font-family: Poppins;
+  letter-spacing: normal;
+  margin: 0;
+  color: #2a3547;
+}
+
+mat-list:hover {
+  background-color: #f5f5f5;
+}
+
+.bg-primary {
+  background: #1e88e5;
+}
+.text-white {
+  color: #fff;
+}
+
+.new-badge {
+  position: absolute;
+  top: 18px;
+  right: 33px;
+}

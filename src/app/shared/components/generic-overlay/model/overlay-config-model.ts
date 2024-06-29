@@ -6,6 +6,7 @@ export interface OverlayConfigModel {
     hasBackdrop?: boolean;
     backdropClass?: string;
     scrollStrategy?: ScrollStrategy;
-    backdropClickClose?: boolean
+    backdropClickClose?: boolean;
+    width?: string
   }
   

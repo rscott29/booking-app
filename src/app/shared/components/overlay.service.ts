@@ -1,5 +1,6 @@
 import {
   Injectable,
+  NgZone,
   TemplateRef,
   ViewContainerRef,
 } from '@angular/core';
@@ -9,6 +10,7 @@ import { OverlayConfigModel } from './generic-overlay/model/overlay-config-model
 import { PositionConfig } from './generic-overlay/model/position-strategy-model';
 import { ScrollStrategy } from './generic-overlay/model/scroll-strategy-model';
 import { Subscription } from 'rxjs';
+import { GenericOverlayComponent } from './generic-overlay/generic-overlay.component';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +19,7 @@ export class OverlayService {
   private overlayRef: OverlayRef | undefined | null;
   private backdropClickSubscription: Subscription | undefined | null;
 
-  constructor(private overlay: Overlay) {}
+  constructor(private overlay: Overlay,private ngZone: NgZone) {}
 
   open<T>(
     componentOrTemplate: ComponentType<T> | TemplateRef<any>,
@@ -30,25 +32,25 @@ export class OverlayService {
       backdropClass: 'cdk-overlay-dark-backdrop',
       scrollStrategy: 'block',
       position: { centerHorizontally: true, centerVertically: true },
-      backdropClickClose: true
+      backdropClickClose: true,
+      width: 'auto'
     };
-
+  
     const finalConfig = { ...defaultConfig, ...config };
-
+  
     const positionStrategy = this.createPositionStrategy(finalConfig.position);
-
+  
     const overlayConfig: OverlayConfig = {
       hasBackdrop: finalConfig.hasBackdrop,
       backdropClass: finalConfig.backdropClass,
       scrollStrategy: this.getScrollStrategy(finalConfig.scrollStrategy),
       positionStrategy: positionStrategy,
       disposeOnNavigation: true,
-     
     };
+  
+    this.overlayRef = this.overlay.create(overlayConfig);
 
   
-    this.overlayRef = this.overlay.create(overlayConfig)
-
     if (componentOrTemplate instanceof TemplateRef) {
       const templatePortal = new TemplatePortal(
         componentOrTemplate,
@@ -57,20 +59,32 @@ export class OverlayService {
       );
       this.overlayRef.attach(templatePortal);
     } else {
-      const componentPortal = new ComponentPortal(componentOrTemplate);
+      const componentPortal = new ComponentPortal(GenericOverlayComponent);
       const componentRef = this.overlayRef.attach(componentPortal);
-
-      if (data) {
-        (componentRef.instance as any).data = data;
+  
+      if (componentRef.instance) {
+        (componentRef.instance as GenericOverlayComponent).componentType = componentOrTemplate;
+        (componentRef.instance as GenericOverlayComponent).data = { data };
       }
     }
 
+    this.ngZone.runOutsideAngular(() => {
+      setTimeout(() => {
+        if (this.overlayRef && finalConfig.width) {
+          
+          this.overlayRef.overlayElement.style.width = finalConfig.width;
+        }
+      });
+    });
+  
     if (finalConfig.backdropClickClose && this.overlayRef) {
-      this.overlayRef.backdropClick().subscribe(() => this.close())
+      this.overlayRef.backdropClick().subscribe(() => this.close());
     }
-
+  
     return this.overlayRef;
   }
+  
+  
 
   private getScrollStrategy(scrollStrategy: ScrollStrategy | undefined) {
     switch (scrollStrategy) {

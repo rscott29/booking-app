@@ -1,0 +1,25 @@
+<span class="m-l-auto new-badge">
+  <span class="bg-primary text-white p-x-8 p-y-4 f-w-500 rounded f-s-12">5 new</span>
+</span>
+
+@for (message of messages; track message) {
+<mat-list #messages>
+
+    <button class="mat-mdc-menu-item">
+        <div class="d-flex align-items-center">
+            <img
+              width="48"
+              class="rounded-circle"
+              src="https://picsum.photos/id/237/48/48"
+            />
+            <div class="m-l-16">
+              <h5 class="f-s-14 f-w-600 m-0 mat-subtitle-1">{{message.sender}}</h5>
+              <span>{{message.message}}</span>
+            </div>
+          </div>
+    </button>
+
+
+
+</mat-list>
+}

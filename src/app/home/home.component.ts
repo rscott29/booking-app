@@ -5,7 +5,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { Auth } from '@angular/fire/auth';
-import { GenericOverlayComponent } from '../shared/components/generic-overlay/generic-overlay.component';
 import { OverlayService } from '../shared/components/overlay.service';
 import { OverlayConfigModel } from '../shared/components/generic-overlay/model/overlay-config-model';
 import {
@@ -15,28 +14,27 @@ import {
   Validators,
 } from '@angular/forms';
 
-import {
-  Firestore,
-  addDoc,
-  collection,
-} from '@angular/fire/firestore';
+import { Firestore, addDoc, collection } from '@angular/fire/firestore';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import parsePhoneNumber from 'libphonenumber-js';
 import { debounceTime } from 'rxjs';
 import { MatCardModule } from '@angular/material/card';
-import { MatListModule } from '@angular/material/list'
-import {  NgScrollbarModule } from 'ngx-scrollbar';
+import { MatListModule } from '@angular/material/list';
+import { NgScrollbarModule } from 'ngx-scrollbar';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { ProfileMenuComponent } from '../shared/components/ui/profile-menu/profile-menu.component';
+import { MessagesComponent } from '../shared/components/ui/messages/messages.component';
 import { BreadcrumbComponent } from '../shared/components/breadcrumb/breadcrumb.component';
+import { NotificationsComponent } from '../shared/components/ui/notifications/notifications.component';
 
 export interface MenuItems {
   name: string;
   icon: string;
   link: string;
 }
- 
+
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -54,7 +52,7 @@ export interface MenuItems {
     ReactiveFormsModule,
     NgScrollbarModule,
     RouterLink,
-    RouterLinkActive
+    RouterLinkActive,
   ],
 
   templateUrl: './home.component.html',
@@ -68,17 +66,17 @@ export class HomeComponent {
     {
       name: 'Photos',
       icon: 'photo_camera',
-      link: '/home'
+      link: '/home',
     },
     {
       name: 'Recipes',
       icon: 'cookie',
-      link: '/foo'
+      link: '/foo',
     },
     {
       name: 'Work',
       icon: 'group',
-      link : '/bar'
+      link: '/bar',
     },
   ];
   constructor(
@@ -90,42 +88,77 @@ export class HomeComponent {
     private readonly firestore: Firestore
   ) {
     this.myForm = this.fb.group({
-      number: ['', [Validators.required]], 
+      number: ['', [Validators.required]],
       body: ['', Validators.required],
     });
 
-    this.myForm.get('number')!.valueChanges
-    .pipe(debounceTime(1000)) 
-    .subscribe(value => {
-      this.formattedNumber = value;
-      this.onInput();
-    });
+    this.myForm
+      .get('number')!
+      .valueChanges.pipe(debounceTime(1000))
+      .subscribe((value) => {
+        this.formattedNumber = value;
+        this.onInput();
+      });
   }
   logout() {
     this.authService.logout();
   }
 
-  openComponentOverlay() {
+  openProfileOverlay() {
     const config: OverlayConfigModel = {
       position: { top: '59px', right: '16px' },
       hasBackdrop: true,
       backdropClass: 'cdk-overlay-transparent-backdrop',
     };
     this.overlayService.open(
-      GenericOverlayComponent,
+      ProfileMenuComponent,
       this.viewContainerRef,
       {
         title: 'User Profile',
-        content: 'foo bar',
       },
       config
     );
   }
+  openMessagesOverlay() {
+    const config: OverlayConfigModel = {
+      position: { top: '59px', right: '52px' },
+      hasBackdrop: true,
+      backdropClass: 'cdk-overlay-transparent-backdrop',
+      width: '360px',
+    };
+    this.overlayService.open(
+      MessagesComponent,
+      this.viewContainerRef,
+      {
+        title: 'Messages',
+      },
+      config
+    );
+  }
+  openNotificationsOverlay() {
+    const config: OverlayConfigModel = {
+      position: { top: '59px', right: '52px' },
+      hasBackdrop: true,
+      backdropClass: 'cdk-overlay-transparent-backdrop',
+      width: '360px',
+    };
+    this.overlayService.open(
+    NotificationsComponent,
+      this.viewContainerRef,
+      {
+        title: 'Notifications',
+      },
+      config
+    );
+  }
+
   onInput() {
     const parsedNumber = parsePhoneNumber(this.formattedNumber, 'GB');
     if (parsedNumber) {
       this.formattedNumber = parsedNumber.number.toString();
-      this.myForm.get('number')!.setValue(this.formattedNumber, { emitEvent: false });
+      this.myForm
+        .get('number')!
+        .setValue(this.formattedNumber, { emitEvent: false });
     }
   }
   async onSubmit() {

@@ -40,22 +40,20 @@ $booking-app-theme: mat.define-theme(
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined");
 html,
 body {
-  font-family: Poppins,sans-serif!important;
+  font-family: Poppins, sans-serif !important;
   color: #2a3547;
-  font-size: 14px!important;
+  font-size: 14px !important;
   line-height: 1.334rem;
   height: 100%;
   overflow: hidden;
   content: "";
   width: 100%;
- // opacity: 0.3;
+  // opacity: 0.3;
   background: radial-gradient(#d2f1df, #d3d7fa, #bad8f4) 0% 0%/400% 400%;
   animation: 15s ease 0s infinite normal none running gradient;
   margin: 0;
   padding: 0;
-  
 }
-
 
 .mat-ripple {
   overflow: hidden;
@@ -880,7 +878,7 @@ html .mat-drawer-container {
   margin: 0 !important;
 }
 .m-0-auto {
-  margin: 0 auto!important;
+  margin: 0 auto !important;
 }
 .m-2 {
   margin: 2px !important;
@@ -2095,7 +2093,7 @@ html .mat-drawer-container {
 [dir="ltr"] .m-r-4 {
   margin-right: 4px !important;
 }
- .m-r-6 {
+.m-r-6 {
   margin-right: 7px !important;
 }
 [dir="ltr"] .m-r-8 {
@@ -2448,7 +2446,6 @@ html .mat-drawer-container {
   line-height: 44px;
 }
 .bg-gredient:before {
-
 }
 @keyframes gradient {
   0% {
@@ -2525,15 +2522,15 @@ html .mat-drawer-container {
   width: 100%;
 }
 .mat-mdc-form-field-focus-overlay {
-
-  background-color: transparent!important;
+  background-color: transparent !important;
 }
-.mat-mdc-unelevated-button, .mat-mdc-outlined-button {
-  font-family: Poppins,sans-serif!important;
+.mat-mdc-unelevated-button,
+.mat-mdc-outlined-button {
+  font-family: Poppins, sans-serif !important;
 }
 
 .text-error {
-  font-family: Poppins,sans-serif!important;
+  font-family: Poppins, sans-serif !important;
   font-size: 12px;
   color: #fc4b6c !important;
   margin-top: 4px;
@@ -2542,28 +2539,29 @@ html .mat-drawer-container {
 .cdk-overlay-dark-backdrop {
   background: rgba(0, 0, 0, 0.6);
 }
+.cdk-overlay-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 .cdk-overlay-pane {
-  // padding-bottom: 20px!important;
-  // padding-left: 20px!important;
-  // padding-right: 5px!important;
   background: white;
   border-radius: 8px;
 }
 
- .mat-subtitle-1 {
+.mat-subtitle-1 {
   line-height: 26px;
   letter-spacing: normal;
   color: #2a3547;
 }
 
 .d-align {
-  display: grid; 
-  grid-template-columns: auto 1fr; 
+  display: grid;
+  grid-template-columns: auto 1fr;
   align-items: center;
 }
 
 .logo {
   max-width: 168px;
 }
-

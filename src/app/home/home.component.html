@@ -22,14 +22,16 @@
   </button>
   <span class="flex-1-auto"></span>
   <button
+    (click)="openNotificationsOverlay()"
     class="m-r-6"
     mat-icon-button
     color="accent"
-    aria-label="Messages Button"
+    aria-label="Notifications Menu Button"
   >
-    <mat-icon>message</mat-icon>
+    <mat-icon>notifications</mat-icon>
   </button>
   <button
+    (click)="openMessagesOverlay()"
     class="m-r-6"
     mat-icon-button
     color="accent"
@@ -38,7 +40,7 @@
     <mat-icon>mail</mat-icon>
   </button>
   <button
-    (click)="openComponentOverlay()"
+    (click)="openProfileOverlay()"
     class="m-r-6 image"
     mat-mini-fab
     color="primary"
@@ -46,32 +48,43 @@
     [style.backgroundImage]="'url(' + auth.currentUser?.photoURL"
   ></button>
 </mat-toolbar>
+
 <mat-drawer-container class="example-container">
   <mat-drawer #drawer mode="side" opened>
     <div class="nav-container">
       <ng-scrollbar>
-       
-          <div class="user-profile profile-bar" style="background: url(assets/images/gym_ill.jpg) no-repeat;">
+        <div
+          class="user-profile profile-bar"
+          style="background: url(assets/images/gym_ill.jpg) no-repeat"
+        >
           <div class="profile-img">
-            <img src="{{auth.currentUser?.photoURL}}" alt="user" width="50" class="rounded-circle">
+            <img
+              src="{{ auth.currentUser?.photoURL }}"
+              alt="user"
+              width="50"
+              class="rounded-circle"
+            />
           </div>
           <div class="profile-text">
-         <a class="text-white d-flex f-s-16" href="">{{auth.currentUser?.displayName}}
-          <mat-icon class="icon-18 m-l-auto">keyboard_arrow_down</mat-icon>
-         </a> 
-        
-      </div>
-      </div>
-      <mat-nav-list class="left-menu">
-        @for (menuItem of menuItems; track menuItem) {
+            <a class="text-white d-flex f-s-16" href=""
+              >{{ auth.currentUser?.displayName }}
+              <mat-icon class="icon-18 m-l-auto">keyboard_arrow_down</mat-icon>
+            </a>
+          </div>
+        </div>
+        <mat-nav-list class="left-menu">
+          @for (menuItem of menuItems; track menuItem) {
 
-        <mat-list-item routerLink={{menuItem.link}} routerLinkActive="active">
-          <mat-icon matListItemIcon>{{ menuItem.icon }}</mat-icon>
-          <div matListItemTitle>{{ menuItem.name }}</div>
-        </mat-list-item>
+          <mat-list-item
+            routerLink="{{ menuItem.link }}"
+            routerLinkActive="active"
+          >
+            <mat-icon matListItemIcon>{{ menuItem.icon }}</mat-icon>
+            <div matListItemTitle>{{ menuItem.name }}</div>
+          </mat-list-item>
 
-        }
-      </mat-nav-list>
+          }
+        </mat-nav-list>
       </ng-scrollbar>
     </div>
   </mat-drawer>
@@ -79,7 +92,7 @@
     <main class="pageWrapper maxWidth">
       <app-breadcrumb></app-breadcrumb>
     </main>
-  
+
     <!-- <form class="send-text-form" [formGroup]="myForm" (ngSubmit)="onSubmit()">
       <div class="col-lg-6">
         <mat-card>
