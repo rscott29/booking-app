@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { RouteService } from '../../services/route.service';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { RouteService } from '../../services/route.service';
 
 @Component({
   selector: 'app-breadcrumb',
