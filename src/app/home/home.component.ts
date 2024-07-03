@@ -26,8 +26,8 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { ProfileMenuComponent } from '../shared/components/ui/profile-menu/profile-menu.component';
 import { MessagesComponent } from '../shared/components/ui/messages/messages.component';
-import { BreadcrumbComponent } from '../shared/components/breadcrumb/breadcrumb.component';
 import { NotificationsComponent } from '../shared/components/ui/notifications/notifications.component';
+import { BreadcrumbComponent } from '../shared/components/ui/breadcrumb/breadcrumb.component';
 
 export interface MenuItems {
   name: string;
@@ -69,9 +69,14 @@ export class HomeComponent {
       link: '/home',
     },
     {
-      name: 'Recipes',
+      name: 'foo',
       icon: 'cookie',
       link: '/foo',
+    },
+    {
+      name: 'Recipes',
+      icon: 'cookie',
+      link: '/foo/test',
     },
     {
       name: 'Work',

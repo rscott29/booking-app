@@ -35,7 +35,7 @@ export class AppComponent {
         .pipe(takeUntilDestroyed())
         .subscribe((isLoggedIn) => {
           if (isLoggedIn) {
-            this.router.navigate(['/home']);
+            //this.router.navigate(['/home']);
           } else if (isLoggedIn === false) {
             this.router.navigate(['/login']);
           }

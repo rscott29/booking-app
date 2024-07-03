@@ -78,6 +78,7 @@
           <mat-list-item
             routerLink="{{ menuItem.link }}"
             routerLinkActive="active"
+            [routerLinkActiveOptions]="{exact: true}"
           >
             <mat-icon matListItemIcon>{{ menuItem.icon }}</mat-icon>
             <div matListItemTitle>{{ menuItem.name }}</div>

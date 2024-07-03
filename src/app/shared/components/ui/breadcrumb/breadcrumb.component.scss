@@ -1,0 +1,13 @@
+.breadcrumb-item a {
+    text-decoration: none;
+    color: #2a3547;
+    font-size: 14px;
+  }
+  .breadcrumb-separator:not(:last-child)::after {
+    content: ">";
+    margin-left: 15px;
+}
+
+  .breadcrumb-item.active {
+    margin-left: 20px;
+  }
