@@ -36,9 +36,9 @@ export const routes: Routes = [
   },
   { path: 'password-reset', component: PasswordResetComponent },
   { path: 'signup', component: SignUpComponent },
-  // {
-  //   path: '',
-  //   redirectTo: '/home',
-  //   pathMatch: 'full',
-  // },
+  {
+    path: '',
+    redirectTo: '/home',
+    pathMatch: 'full',
+  },
 ];

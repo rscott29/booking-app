@@ -7,6 +7,7 @@ export interface OverlayConfigModel {
     backdropClass?: string;
     scrollStrategy?: ScrollStrategy;
     backdropClickClose?: boolean;
-    width?: string
+    width?: string;
+    showTitle?:boolean;
   }
   

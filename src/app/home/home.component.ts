@@ -1,4 +1,4 @@
-import { Component, ViewContainerRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewContainerRef, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { AuthService } from '../auth/login/auth.service';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -15,11 +15,11 @@ import {
 } from '@angular/forms';
 
 import { Firestore, addDoc, collection } from '@angular/fire/firestore';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import parsePhoneNumber from 'libphonenumber-js';
-import { debounceTime } from 'rxjs';
+import { Observable, debounceTime } from 'rxjs';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { NgScrollbarModule } from 'ngx-scrollbar';
@@ -28,6 +28,11 @@ import { ProfileMenuComponent } from '../shared/components/ui/profile-menu/profi
 import { MessagesComponent } from '../shared/components/ui/messages/messages.component';
 import { NotificationsComponent } from '../shared/components/ui/notifications/notifications.component';
 import { BreadcrumbComponent } from '../shared/components/ui/breadcrumb/breadcrumb.component';
+import { SearchComponent } from '../shared/components/ui/search/search.component';
+import { RouteService } from '../shared/services/route.service';
+import { UsersService } from '../shared/services/users.service';
+import { MessagingService } from '../shared/services/messaging.service';
+import { get, getDatabase, ref } from '@angular/fire/database';
 
 export interface MenuItems {
   name: string;
@@ -41,6 +46,7 @@ export interface MenuItems {
   imports: [
     BreadcrumbComponent,
     CommonModule,
+    NgOptimizedImage,
     MatButtonModule,
     MatInputModule,
     MatFormFieldModule,
@@ -57,40 +63,23 @@ export interface MenuItems {
 
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomeComponent {
   showFiller = false;
   myForm: FormGroup;
   formattedNumber: string = '';
-  menuItems: MenuItems[] = [
-    {
-      name: 'Photos',
-      icon: 'photo_camera',
-      link: '/home',
-    },
-    {
-      name: 'foo',
-      icon: 'cookie',
-      link: '/foo',
-    },
-    {
-      name: 'Recipes',
-      icon: 'cookie',
-      link: '/foo/test',
-    },
-    {
-      name: 'Work',
-      icon: 'group',
-      link: '/bar',
-    },
-  ];
+  menuItems: MenuItems[] = inject(RouteService).getAllRoutes();
+  users$: Observable<any[]> | undefined;
   constructor(
     private authService: AuthService,
     public auth: Auth,
     private overlayService: OverlayService,
     private viewContainerRef: ViewContainerRef,
     private fb: FormBuilder,
-    private readonly firestore: Firestore
+    private readonly firestore: Firestore,
+    private usersService: UsersService,
+    private messagingService: MessagingService
   ) {
     this.myForm = this.fb.group({
       number: ['', [Validators.required]],
@@ -104,6 +93,8 @@ export class HomeComponent {
         this.formattedNumber = value;
         this.onInput();
       });
+
+    this.users$ = this.usersService.getAllUsers();
   }
   logout() {
     this.authService.logout();
@@ -148,10 +139,26 @@ export class HomeComponent {
       width: '360px',
     };
     this.overlayService.open(
-    NotificationsComponent,
+      NotificationsComponent,
       this.viewContainerRef,
       {
         title: 'Notifications',
+      },
+      config
+    );
+  }
+
+  openSearchOverlay() {
+    const config: OverlayConfigModel = {
+      hasBackdrop: true,
+      width: '600px',
+      showTitle: false,
+    };
+    this.overlayService.open(
+      SearchComponent,
+      this.viewContainerRef,
+      {
+        title: 'Search',
       },
       config
     );
@@ -166,6 +173,29 @@ export class HomeComponent {
         .setValue(this.formattedNumber, { emitEvent: false });
     }
   }
+
+  sendFriendRequest(friendId: string) {
+   
+    const userId = this.auth.currentUser?.uid;
+    const userName = this.auth.currentUser?.displayName;
+  
+    if (userId && userName) {
+      // Prevent duplicate requests
+      const db = getDatabase();
+      const userFriendsRef = ref(db, `/users/${friendId}/friends/${userId}`);
+  
+      get(userFriendsRef).then((snapshot) => {
+        if (!snapshot.exists()) {
+          this.messagingService.sendFriendRequest(userId, friendId, userName);
+        } else {
+          console.log('Friend request already exists.');
+        }
+      }).catch((error) => {
+        console.error('Error checking friend request existence:', error);
+      });
+    }
+  }
+  
   async onSubmit() {
     if (this.myForm.valid) {
       return await addDoc(collection(this.firestore, 'messages'), {

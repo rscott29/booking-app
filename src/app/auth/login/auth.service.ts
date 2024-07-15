@@ -23,6 +23,7 @@ import {
 import { PlatformService } from '../../shared/services/platform.service';
 import { Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MessagingService } from '../../shared/services/messaging.service';
 
 @Injectable({
   providedIn: 'root',
@@ -32,6 +33,7 @@ export class AuthService {
   private platformService = inject(PlatformService);
   private _rememberDevice: boolean = false;
   private authStateSubject = new ReplaySubject<boolean | null>(1);
+  private messagingService = inject(MessagingService)
 
   constructor(private router: Router) {
       authState(this.auth).pipe(takeUntilDestroyed()).subscribe((user: boolean | null) => {
@@ -48,6 +50,7 @@ export class AuthService {
     this.auth.onAuthStateChanged((user) => {
       if (user) {
         this.router.navigate(['/home']);
+        this.messagingService.requestPermission(user.uid);
       }
     });
     return userCredential;
@@ -59,6 +62,7 @@ export class AuthService {
     this.auth.onAuthStateChanged((user) => {
       if (user) {
         this.router.navigate(['/home']);
+        this.messagingService.requestPermission(user.uid);
       }
     });
   
@@ -73,6 +77,7 @@ export class AuthService {
     this.auth.onAuthStateChanged((user) => {
       if (user) {
         this.router.navigate(['/home']);
+        this.messagingService.requestPermission(user.uid);
       }
     });
     return userCredential;

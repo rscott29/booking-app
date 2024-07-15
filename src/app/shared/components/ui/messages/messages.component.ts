@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
@@ -9,7 +9,8 @@ import { MatListModule } from '@angular/material/list';
   standalone: true,
   imports: [MatIconModule, MatListModule, MatButtonModule],
   templateUrl: './messages.component.html',
-  styleUrl: './messages.component.scss'
+  styleUrl: './messages.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MessagesComponent {
   @Input() data:any;

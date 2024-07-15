@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatListModule } from '@angular/material/list';
 
 @Component({
@@ -7,6 +7,7 @@ import { MatListModule } from '@angular/material/list';
   imports: [MatListModule],
   templateUrl: './notifications.component.html',
   styleUrl: './notifications.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NotificationsComponent {
   notifications = [

@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   Input,
   OnInit,
@@ -8,7 +9,7 @@ import {
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { DatePipe } from '@angular/common';
+import { DatePipe, JsonPipe } from '@angular/common';
 import { ComponentType } from '@angular/cdk/portal';
 
 
@@ -18,6 +19,7 @@ import { ComponentType } from '@angular/cdk/portal';
   imports: [NgScrollbarModule, MatButtonModule, MatIconModule, DatePipe],
   templateUrl: './generic-overlay.component.html',
   styleUrl: './generic-overlay.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GenericOverlayComponent implements OnInit {
   @ViewChild('dynamicComponentContainer', {
