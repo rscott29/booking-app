@@ -1,0 +1,33 @@
+<div class="p-24 p-b-0">
+  <div class="row">
+    <div class="col-10">
+      <mat-form-field class="w-100" appearance="outline" color="primary">
+        <input matInput placeholder="Search here" [(ngModel)]="inputValue" (ngModelChange)="onInputChange($event)">
+      </mat-form-field>
+    </div>
+    <div class="col-2 d-flex justify-content-end">
+      <button (click)="closeOverlay()" mat-icon-button aria-label="close search overlay">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>
+<mat-divider></mat-divider>
+
+
+<div class="search-result">
+  <h4 class="f-s-18 f-w-600 mat-subtitle-1 m-0">Quick Page Links</h4>
+  
+  @for(route of filteredRoutes; track route) {
+    <a (click)="closeOverlay()" class="p-y-12 text-decoration-none d-block" routerLink={{route.link}} type="button">
+      <h5 class="f-s-14 f-w-500 d-block mat-subtitle-1 m-0">{{route.name}}</h5>
+      <span class="f-s-12 mat-body-2">{{route.link}}</span>
+    </a>
+  }
+
+  @if (filteredRoutes.length === 0) {
+    <p>no search results found.</p>
+
+  }
+  
+</div>

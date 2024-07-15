@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { RouteService } from '../../../services/route.service';
@@ -10,7 +10,8 @@ import { RouterLink } from '@angular/router';
   standalone: true,
   imports: [CommonModule, RouterLink],
   templateUrl: './breadcrumb.component.html',
-  styleUrl: './breadcrumb.component.scss'
+  styleUrl: './breadcrumb.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BreadcrumbComponent {
   currentRoute$: Observable<string[] | null> | undefined

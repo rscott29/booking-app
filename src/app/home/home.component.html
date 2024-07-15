@@ -17,7 +17,12 @@
   >
     <mat-icon>menu</mat-icon>
   </button>
-  <button mat-icon-button color="accent" aria-label="Search Button">
+  <button
+    (click)="openSearchOverlay()"
+    mat-icon-button
+    color="accent"
+    aria-label="Search Button"
+  >
     <mat-icon>search</mat-icon>
   </button>
   <span class="flex-1-auto"></span>
@@ -78,7 +83,7 @@
           <mat-list-item
             routerLink="{{ menuItem.link }}"
             routerLinkActive="active"
-            [routerLinkActiveOptions]="{exact: true}"
+            [routerLinkActiveOptions]="{ exact: true }"
           >
             <mat-icon matListItemIcon>{{ menuItem.icon }}</mat-icon>
             <div matListItemTitle>{{ menuItem.name }}</div>
@@ -92,6 +97,37 @@
   <mat-drawer-content>
     <main class="pageWrapper maxWidth">
       <app-breadcrumb></app-breadcrumb>
+      <div class="row">
+
+   
+      @for(user of users$ | async; track user) {
+    
+      <div class="col-sm-6 col-lg-3">
+        <mat-card class="card">
+          <mat-card-content class="p-y-24">
+            <img
+              alt="user"
+              width="80"
+              height="80"
+              class="rounded-circle"
+              ngSrc="{{user.userPhoto}}"
+              priority
+            />
+            <mat-card-title class="mat-mdc-card-title m-t-16"
+              >{{user.name}}</mat-card-title
+            >
+            <div class="d-flex align-items-center">
+              
+              <span class="f-s-14">3 mutual friends</span>
+            </div>
+            <button (click)="sendFriendRequest(user.id)" mat-flat-button class="w-100 m-t-24 text-white bg-primary">
+              Send Friend Request
+            </button>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      }
+    </div>
     </main>
 
     <!-- <form class="send-text-form" [formGroup]="myForm" (ngSubmit)="onSubmit()">

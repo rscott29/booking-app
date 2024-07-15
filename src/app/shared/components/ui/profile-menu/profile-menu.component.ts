@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { MatIconModule } from '@angular/material/icon';
 import { NgScrollbarModule } from 'ngx-scrollbar';
@@ -12,6 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
   imports: [MatIconModule, MatButtonModule, NgScrollbarModule],
   templateUrl: './profile-menu.component.html',
   styleUrl: './profile-menu.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProfileMenuComponent implements OnInit {
   @Input() data: any;

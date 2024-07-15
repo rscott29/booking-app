@@ -33,7 +33,8 @@ export class OverlayService {
       scrollStrategy: 'block',
       position: { centerHorizontally: true, centerVertically: true },
       backdropClickClose: true,
-      width: 'auto'
+      width: 'auto',
+      showTitle: true
     };
   
     const finalConfig = { ...defaultConfig, ...config };
@@ -63,11 +64,12 @@ export class OverlayService {
       const componentRef = this.overlayRef.attach(componentPortal);
   
       if (componentRef.instance) {
-        (componentRef.instance as GenericOverlayComponent).componentType = componentOrTemplate;
-        (componentRef.instance as GenericOverlayComponent).data = { data };
-      }
+        const componentInstance = componentRef.instance as GenericOverlayComponent;
+        componentInstance.componentType = componentOrTemplate;
+        componentInstance.data = { ...data, showTitle: finalConfig.showTitle }; 
     }
-
+  }
+  
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
         if (this.overlayRef && finalConfig.width) {
@@ -80,6 +82,7 @@ export class OverlayService {
     if (finalConfig.backdropClickClose && this.overlayRef) {
       this.overlayRef.backdropClick().subscribe(() => this.close());
     }
+   
   
     return this.overlayRef;
   }

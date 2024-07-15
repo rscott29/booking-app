@@ -1,8 +1,11 @@
 
 <ng-scrollbar>
-  <div class="p-x-32 p-y-16">
-    <h6 class="f-s-16 f-w-600 m-0 mat-subtitle-1">{{ data.data.title }}</h6>
-  </div>
+  @if(data.showTitle) {
+    <div class="p-x-32 p-y-16">
+      <h6 class="f-s-16 f-w-600 m-0 mat-subtitle-1">{{ data.title }}</h6>
+    </div>
+  }
+ 
 
   <ng-template #dynamicComponentContainer></ng-template>
 </ng-scrollbar>
