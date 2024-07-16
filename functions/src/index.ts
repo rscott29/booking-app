@@ -94,11 +94,9 @@ export const sendFriendRequestNotification = onValueWritten(
 
       const message = {
         token: notificationToken,
-        notification: {
+        data: {
           title: "New Friend Request",
           body: `${username} sent you a friend request`,
-        },
-        data: {
           click_action: "FLUTTER_NOTIFICATION_CLICK",
           userId: requesterId,
         },
