@@ -33,8 +33,6 @@ export class SearchComponent implements OnInit {
   private inputSubject = new Subject<string>();
   filteredRoutes = this.allRoutes 
   constructor(private cdr: ChangeDetectorRef, private overlayService: OverlayService) {
-
-
   }
   ngOnInit(): void {
     this.inputSubject.pipe(debounceTime(100)).subscribe(inputValue => {

@@ -138,6 +138,13 @@ export class MessagingService {
     onMessage(this.messaging, (payload) => {
       console.log('Message Received. ', payload);
       this.currentMessage.next(payload);
+      this.handleMessage(payload);
     });
+  }
+   handleMessage(payload: any) {
+    // Handle the message data and update the UI accordingly
+    // For example, update a friend request list or notify a component
+    console.log("Handling foreground message:", payload);
+    // Example: update UI or service state
   }
 }
