@@ -35,4 +35,13 @@ messaging.onBackgroundMessage(function(payload) {
   };
 
   self.registration.showNotification(notificationTitle, notificationOptions);
+
+  self.clients.matchAll({ includeUncontrolled: true, type: 'window' }).then(clients => {
+    clients.forEach(client => {
+      client.postMessage({
+        type: 'BACKGROUND_NOTIFICATION',
+        message: payload.data
+      });
+    });
+  });
 });

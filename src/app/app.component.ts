@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, OnInit, PLATFORM_ID, inject } from '@angular/core';
+import { Component, OnInit, PLATFORM_ID, inject } from '@angular/core';
 import { PerformanceTrace } from '@angular/fire/performance';
-import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { NavigationEnd, NavigationError, NavigationStart, Router, RouterLink, RouterOutlet } from '@angular/router';
 import {
   CommonModule,
   isPlatformBrowser,
@@ -8,13 +8,12 @@ import {
 } from '@angular/common';
 import { AuthService } from './auth/login/auth.service';
 import { PlatformService } from './shared/services/platform.service';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
-import { Auth, user, User } from '@angular/fire/auth';
+import { Auth, User } from '@angular/fire/auth';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Functions } from '@angular/fire/functions';
 import { MessagingService } from './shared/services/messaging.service';
-import { userInfo } from 'os';
 import { getDatabase } from '@angular/fire/database';
 
 @Component({
@@ -44,6 +43,7 @@ export class AppComponent implements OnInit {
     private router: Router,
     private messagingService: MessagingService,
   ) {
+ 
     if (platformService.isBrowser()) {
       authService
         .getAuthState()
@@ -64,32 +64,28 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       if ('serviceWorker' in navigator) {
-    const currentUserId = this.afAuth.currentUser?.uid as string;
-            console.log(currentUserId)
+
         navigator.serviceWorker
           .register('firebase-messaging-sw.js')
           .then((registration) => {
             console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            this.messagingService.receiveMessage();
+    
           })
           .catch((error) => {
             console.error('ServiceWorker registration failed: ', error);
+          });
+          navigator.serviceWorker.addEventListener('message', (event) => {
+            console.log('Received message event:', event);
+            if (event.data && event.data.type === 'BACKGROUND_NOTIFICATION') {
+              console.log('Background notification received:', event.data.message);
+              this.messagingService.handleMessage(event.data.message);
+            }
           });
       } else {
         console.error('Service Worker API is not supported in this browser.');
       }
     }
 }
-  showNotification(title: string, body: string) {
-    if (!("Notification" in window)) {
-      console.error("This browser does not support system notifications");
-    } else if (Notification.permission === "granted") {
-      new Notification(title, { body: 'im a FOREGROUND' + body, icon: '/firebase-logo.png' });
-    } else if (Notification.permission !== "denied") {
-      Notification.requestPermission().then((permission) => {
-        if (permission === "granted") {
-          new Notification(title, { body: 'im a FOREGROUND' + body, icon: '/firebase-logo.png' });
-        }
-      });
-    }
-  }
+
 }
