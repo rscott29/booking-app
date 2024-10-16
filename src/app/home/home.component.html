@@ -17,19 +17,26 @@
   >
     <mat-icon>menu</mat-icon>
   </button>
-  <button mat-icon-button color="accent" aria-label="Search Button">
+  <button
+    (click)="openSearchOverlay()"
+    mat-icon-button
+    color="accent"
+    aria-label="Search Button"
+  >
     <mat-icon>search</mat-icon>
   </button>
   <span class="flex-1-auto"></span>
   <button
+    (click)="openNotificationsOverlay()"
     class="m-r-6"
     mat-icon-button
     color="accent"
-    aria-label="Messages Button"
+    aria-label="Notifications Menu Button"
   >
-    <mat-icon>message</mat-icon>
+    <mat-icon>notifications</mat-icon>
   </button>
   <button
+    (click)="openMessagesOverlay()"
     class="m-r-6"
     mat-icon-button
     color="accent"
@@ -38,7 +45,7 @@
     <mat-icon>mail</mat-icon>
   </button>
   <button
-    (click)="openComponentOverlay()"
+    (click)="openProfileOverlay()"
     class="m-r-6 image"
     mat-mini-fab
     color="primary"
@@ -46,40 +53,83 @@
     [style.backgroundImage]="'url(' + auth.currentUser?.photoURL"
   ></button>
 </mat-toolbar>
+
 <mat-drawer-container class="example-container">
   <mat-drawer #drawer mode="side" opened>
     <div class="nav-container">
       <ng-scrollbar>
-       
-          <div class="user-profile profile-bar" style="background: url(assets/images/gym_ill.jpg) no-repeat;">
+        <div
+          class="user-profile profile-bar"
+          style="background: url(assets/images/gym_ill.jpg) no-repeat"
+        >
           <div class="profile-img">
-            <img src="{{auth.currentUser?.photoURL}}" alt="user" width="50" class="rounded-circle">
+            <img
+              src="{{ auth.currentUser?.photoURL }}"
+              alt="user"
+              width="50"
+              class="rounded-circle"
+            />
           </div>
           <div class="profile-text">
-         <a class="text-white d-flex f-s-16" href="">{{auth.currentUser?.displayName}}
-          <mat-icon class="icon-18 m-l-auto">keyboard_arrow_down</mat-icon>
-         </a> 
-        
-      </div>
-      </div>
-      <mat-nav-list class="left-menu">
-        @for (menuItem of menuItems; track menuItem) {
+            <a class="text-white d-flex f-s-16" href=""
+              >{{ auth.currentUser?.displayName }}
+              <mat-icon class="icon-18 m-l-auto">keyboard_arrow_down</mat-icon>
+            </a>
+          </div>
+        </div>
+        <mat-nav-list class="left-menu">
+          @for (menuItem of menuItems; track menuItem) {
 
-        <mat-list-item routerLink={{menuItem.link}} routerLinkActive="active">
-          <mat-icon matListItemIcon>{{ menuItem.icon }}</mat-icon>
-          <div matListItemTitle>{{ menuItem.name }}</div>
-        </mat-list-item>
+          <mat-list-item
+            routerLink="{{ menuItem.link }}"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <mat-icon matListItemIcon>{{ menuItem.icon }}</mat-icon>
+            <div matListItemTitle>{{ menuItem.name }}</div>
+          </mat-list-item>
 
-        }
-      </mat-nav-list>
+          }
+        </mat-nav-list>
       </ng-scrollbar>
     </div>
   </mat-drawer>
   <mat-drawer-content>
     <main class="pageWrapper maxWidth">
       <app-breadcrumb></app-breadcrumb>
+      <div class="row">
+
+   
+      @for(user of users$ | async; track user) {
+    
+      <div class="col-sm-6 col-lg-3">
+        <mat-card class="card">
+          <mat-card-content class="p-y-24">
+            <img
+              alt="user"
+              width="80"
+              height="80"
+              class="rounded-circle"
+              ngSrc="{{user.userPhoto}}"
+              priority
+            />
+            <mat-card-title class="mat-mdc-card-title m-t-16"
+              >{{user.name}}</mat-card-title
+            >
+            <div class="d-flex align-items-center">
+              
+              <span class="f-s-14">3 mutual friends</span>
+            </div>
+            <button (click)="sendFriendRequest(user.id)" mat-flat-button class="w-100 m-t-24 text-white bg-primary">
+              Send Friend Request
+            </button>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      }
+    </div>
     </main>
-  
+
     <!-- <form class="send-text-form" [formGroup]="myForm" (ngSubmit)="onSubmit()">
       <div class="col-lg-6">
         <mat-card>

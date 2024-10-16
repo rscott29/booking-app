@@ -1,0 +1,27 @@
+<div class="p-b-24 overflow-hidden">
+    <div>
+        <div class="row">
+            <div class="col-lg-8 col-sm-6">
+               
+                <div class="d-flex align-items-center overflow-hidden justify-content-start list-style-none">
+                    <ul class="breadcrumb list-style-none d-flex p-l-0">
+                        <li
+                            *ngFor="let section of currentRoute$ | async; let i = index"
+                            class="breadcrumb-item"
+                            [class.breadcrumb-separator]="(currentRoute$ | async)?.length ?? 0 > 1"
+                            [class.active]="((currentRoute$ | async)?.length ?? 0) > 1 && i === ((currentRoute$ | async)?.length ?? 0) - 1"
+                            tabindex="0"
+                        >
+                            <ng-container *ngIf="i < ((currentRoute$ | async)?.length ?? 0) - 1; else lastBreadcrumb">
+                                <a [routerLink]="generateRouteLink(i, (currentRoute$ | async) ?? [])">{{ section | titlecase }}</a>
+                            </ng-container>
+                            <ng-template #lastBreadcrumb>
+                                <span class="text-primary">{{ section | titlecase }}</span>
+                            </ng-template>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

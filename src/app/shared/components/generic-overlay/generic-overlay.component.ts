@@ -1,17 +1,17 @@
 import {
-  AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
-  TemplateRef,
+  Input,
+  OnInit,
   ViewChild,
+  ViewContainerRef,
 } from '@angular/core';
-import { OverlayService } from '../overlay.service';
-import { NG_SCROLLBAR_OPTIONS, NgScrollbarModule } from 'ngx-scrollbar';
-import { MatMenuModule } from '@angular/material/menu';
-import { Auth } from '@angular/fire/auth';
-import { AuthService } from '../../../auth/login/auth.service';
+import { NgScrollbarModule } from 'ngx-scrollbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { DatePipe } from '@angular/common';
+import { DatePipe, JsonPipe } from '@angular/common';
+import { ComponentType } from '@angular/cdk/portal';
+
 
 @Component({
   selector: 'app-generic-overlay',
@@ -19,24 +19,27 @@ import { DatePipe } from '@angular/common';
   imports: [NgScrollbarModule, MatButtonModule, MatIconModule, DatePipe],
   templateUrl: './generic-overlay.component.html',
   styleUrl: './generic-overlay.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GenericOverlayComponent implements AfterViewInit {
-  @ViewChild('templateRef') templateRef: TemplateRef<any> | undefined;
-  data: any;
+export class GenericOverlayComponent implements OnInit {
+  @ViewChild('dynamicComponentContainer', {
+    read: ViewContainerRef,
+    static: true,
+  })
+  dynamicComponentContainer: ViewContainerRef | undefined;
+  @Input() componentType: ComponentType<any> | undefined;
+  @Input() data: any;
 
-  constructor(
-    private overlayService: OverlayService,
-    public auth: Auth,
-    private authService: AuthService
-  ) {}
-  ngAfterViewInit(): void {
-    console.log(this.auth?.currentUser);
-  }
-  close() {
-    this.overlayService.close();
-  }
-  logout() {
-    this.overlayService.close();
-    this.authService.logout();
+  constructor() {}
+
+  ngOnInit(): void {
+    if (this.componentType) {
+      const componentRef = this.dynamicComponentContainer?.createComponent(
+        this.componentType
+      );
+      if (this.data) {
+        Object.assign(componentRef?.instance, this.data);
+      }
+    }
   }
 }

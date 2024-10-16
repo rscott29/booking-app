@@ -1,0 +1,9 @@
+:host {
+  display: block;
+  max-height: 600px;
+}
+.search-result {
+  padding: 20px 24px;
+  max-height: 600px;
+  overflow: auto;
+}

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -20,6 +20,7 @@ import { AuthService } from '../login/auth.service';
   ],
   templateUrl: './password-reset.component.html',
   styleUrl: './password-reset.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PasswordResetComponent {
   email = new FormControl('');
