@@ -16,6 +16,7 @@ import { Functions } from '@angular/fire/functions';
 import { MessagingService } from './shared/services/messaging.service';
 import { getDatabase } from '@angular/fire/database';
 
+
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -42,6 +43,7 @@ export class AppComponent implements OnInit {
     private platformService: PlatformService,
     private router: Router,
     private messagingService: MessagingService,
+
   ) {
  
     if (platformService.isBrowser()) {
@@ -68,7 +70,7 @@ export class AppComponent implements OnInit {
         navigator.serviceWorker
           .register('firebase-messaging-sw.js')
           .then((registration) => {
-            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        
             this.messagingService.receiveMessage();
     
           })
@@ -76,10 +78,10 @@ export class AppComponent implements OnInit {
             console.error('ServiceWorker registration failed: ', error);
           });
           navigator.serviceWorker.addEventListener('message', (event) => {
-            console.log('Received message event:', event);
+           
             if (event.data && event.data.type === 'BACKGROUND_NOTIFICATION') {
-              console.log('Background notification received:', event.data.message);
-              this.messagingService.handleMessage(event.data.message);
+         
+              this.messagingService.handleBackgroundMessage(event.data.message);
             }
           });
       } else {

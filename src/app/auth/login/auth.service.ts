@@ -24,6 +24,7 @@ import { PlatformService } from '../../shared/services/platform.service';
 import { Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MessagingService } from '../../shared/services/messaging.service';
+import { AppStore } from '../../app.store';
 
 @Injectable({
   providedIn: 'root',
@@ -34,6 +35,7 @@ export class AuthService {
   private _rememberDevice: boolean = false;
   private authStateSubject = new ReplaySubject<boolean | null>(1);
   private messagingService = inject(MessagingService)
+  private appStore = inject(AppStore)
 
   constructor(private router: Router) {
       authState(this.auth).pipe(takeUntilDestroyed()).subscribe((user: boolean | null) => {
@@ -51,6 +53,11 @@ export class AuthService {
       if (user) {
         this.router.navigate(['/home']);
         this.messagingService.requestPermission(user.uid);
+        //TODO: update to set user global app state instead
+        this.appStore.setCurrentUser(user)
+      
+      } else {
+        this.appStore.clearUser();
       }
     });
     return userCredential;
@@ -63,6 +70,9 @@ export class AuthService {
       if (user) {
         this.router.navigate(['/home']);
         this.messagingService.requestPermission(user.uid);
+
+        //TODO: update to set user global app state instead
+     
       }
     });
   
@@ -78,6 +88,7 @@ export class AuthService {
       if (user) {
         this.router.navigate(['/home']);
         this.messagingService.requestPermission(user.uid);
+        localStorage.setItem('user', user.uid)
       }
     });
     return userCredential;
