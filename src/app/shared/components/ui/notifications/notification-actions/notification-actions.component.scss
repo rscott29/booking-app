@@ -1,0 +1,16 @@
+.notification-content {
+    width: 100%;
+    padding: 12px 0;
+  }
+  
+  .actions {
+    margin-left: 74px; 
+    margin-top: 10px;
+    margin-bottom:16px;
+    display: flex;
+    gap: 8px;
+  }
+  
+.reject {
+  border: 1px solid var(--mdc-outlined-button-label-text-color);
+}

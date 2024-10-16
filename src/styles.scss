@@ -1335,6 +1335,9 @@ html .mat-drawer-container {
 .m-r--15 {
   margin-right: -15px !important;
 }
+.m-r-16 {
+  margin-right: 16px !important;
+}
 .m-r--16 {
   margin-right: -16px !important;
 }
@@ -2267,4 +2270,12 @@ mat-list:hover {
 }
 .text-primary {
   color: #1e88e5 !important;
+}
+
+.mat-mdc-outlined-button.mat-warn {
+  --mdc-outlined-button-label-text-color: #e91e63;
+  --mdc-outlined-button-outline-color: rgba(0, 0, 0, .12);
+  --mat-outlined-button-state-layer-color: #e91e63;
+  --mat-outlined-button-ripple-color: rgba(233, 30, 99, .1);
+  border-color: #e91e63!important;
 }

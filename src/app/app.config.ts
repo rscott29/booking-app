@@ -30,6 +30,10 @@ import { getVertexAI, provideVertexAI } from '@angular/fire/vertexai-preview';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideHttpClient } from '@angular/common/http';
 import { provideServiceWorker } from '@angular/service-worker';
+import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { NotificationStore } from './shared/components/ui/notifications/state/notification.store';
+import { AppStore } from './app.store';
+
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -37,8 +41,7 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideClientHydration(),
-    provideFirebaseApp(() =>
-      initializeApp({
+    provideFirebaseApp(() => initializeApp({
         projectId: 'booking-app-71ee7',
         appId: '1:137744105738:web:672e10930e2d66b3bfbaf3',
         storageBucket: 'booking-app-71ee7.appspot.com',
@@ -46,8 +49,7 @@ export const appConfig: ApplicationConfig = {
         authDomain: 'booking-app-71ee7.firebaseapp.com',
         messagingSenderId: '137744105738',
         measurementId: 'G-XBT7T9R8BT',
-      })
-    ),
+    })),
     provideAuth(() => getAuth()),
     provideAnalytics(() => getAnalytics()),
     ScreenTrackingService,
@@ -63,13 +65,19 @@ export const appConfig: ApplicationConfig = {
     //     isTokenAutoRefreshEnabled: true,
     //   });
     // }),
-    ,provideFirestore(() => getFirestore()),
-     provideDatabase(() => getDatabase()),
-     provideFunctions(() => getFunctions()),
-     provideMessaging(() => getMessaging())
+    ,
+    provideFirestore(() => getFirestore()),
+    provideDatabase(() => getDatabase()),
+    provideFunctions(() => getFunctions()),
+    provideMessaging(() => getMessaging())
     // providePerformance(() => getPerformance()),
     // provideStorage(() => getStorage()),
     // provideRemoteConfig(() => getRemoteConfig()),
     // provideVertexAI(() => getVertexAI()),
-  ],
+    ,
+    provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
+    AppStore,
+    NotificationStore,
+
+],
 };

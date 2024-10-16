@@ -1,0 +1,28 @@
+<div class="actions">
+  
+  @if(notification?.notification_type === notificationType.FRIEND_REQUEST) {
+
+  <ng-container>
+    <button
+      (click)="emitActionClick(notificationAction.APPROVE_FRIEND_REQUEST)"
+      class="bg-primary"
+      mat-flat-button
+    >
+      Approve
+    </button>
+    <button  (click)="emitActionClick(notificationAction.REJECT_FRIEND_REQUEST)" 
+    class="mat-mdc-outlined-button mat-warn" mat-stroked-button>
+      Reject
+    </button>
+  </ng-container>
+  } @if (notification?.notification_type === 'INBOX_MESSAGE') {
+  <ng-container @if()>
+    <button class="bg-primary" mat-flat-button>Read More</button>
+  </ng-container>
+  } @if (notification?.notification_type === 'SYSTEM_MESSAGE') {
+
+  <ng-container>
+    <button class="bg-primary" mat-flat-button>OK</button>
+  </ng-container>
+  } 
+</div>

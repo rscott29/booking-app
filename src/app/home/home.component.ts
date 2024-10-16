@@ -3,6 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { AuthService } from '../auth/login/auth.service';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatBadgeModule} from '@angular/material/badge'
 import { MatIconModule } from '@angular/material/icon';
 import { Auth } from '@angular/fire/auth';
 import { OverlayService } from '../shared/components/overlay.service';
@@ -33,6 +34,7 @@ import { RouteService } from '../shared/services/route.service';
 import { UsersService } from '../shared/services/users.service';
 import { MessagingService } from '../shared/services/messaging.service';
 import { get, getDatabase, ref } from '@angular/fire/database';
+import { NotificationStore } from '../shared/components/ui/notifications/state/notification.store';
 
 export interface MenuItems {
   name: string;
@@ -55,6 +57,7 @@ export interface MenuItems {
     MatSidenavModule,
     MatListModule,
     MatCardModule,
+    MatBadgeModule,
     ReactiveFormsModule,
     NgScrollbarModule,
     RouterLink,
@@ -70,7 +73,9 @@ export class HomeComponent {
   myForm: FormGroup;
   formattedNumber: string = '';
   menuItems: MenuItems[] = inject(RouteService).getAllRoutes();
+  
   users$: Observable<any[]> | undefined;
+  notificationStore = inject(NotificationStore)
   constructor(
     private authService: AuthService,
     public auth: Auth,
@@ -176,24 +181,7 @@ export class HomeComponent {
 
   sendFriendRequest(friendId: string) {
    
-    const userId = this.auth.currentUser?.uid;
-    const userName = this.auth.currentUser?.displayName;
-  
-    if (userId && userName) {
-      // Prevent duplicate requests
-      const db = getDatabase();
-      const userFriendsRef = ref(db, `/users/${friendId}/friends/${userId}`);
-  
-      get(userFriendsRef).then((snapshot) => {
-        if (!snapshot.exists()) {
-          this.messagingService.sendFriendRequest(userId, friendId, userName);
-        } else {
-          console.log('Friend request already exists.');
-        }
-      }).catch((error) => {
-        console.error('Error checking friend request existence:', error);
-      });
-    }
+    this.messagingService.sendFriendRequest(friendId)
   }
   
   async onSubmit() {

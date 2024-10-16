@@ -3,6 +3,7 @@ import {onRequest} from "firebase-functions/v2/https";
 import * as logger from "firebase-functions/logger";
 import * as admin from "firebase-admin";
 import {onValueWritten} from "firebase-functions/v2/database";
+import {v4 as uuidv4} from "uuid";
 
 admin.initializeApp({
   projectId: "booking-app-71ee7",
@@ -55,7 +56,7 @@ export const getAllUsers = onRequest({cors: true}, async (req, res) => {
 
 export const sendFriendRequestNotification = onValueWritten(
   {
-    ref: "/users/{userId}/friends/{requesterId}",
+    ref: "/users/{userId}/sent_requests/{requesterId}",
   },
   async (event) => {
     const {userId, requesterId} = event.params;
@@ -63,49 +64,61 @@ export const sendFriendRequestNotification = onValueWritten(
 
     console.log(`Function triggered for UserId: ${userId}, RequesterId: ${requesterId}, Event: ${JSON.stringify(eventData)}`);
 
+    // Check if the friend request has been deleted
     if (!eventData) {
       console.log("Friend request deleted, no action needed");
       return;
     }
 
+    // Check if the notification has already been sent
     if (eventData.notificationSent) {
       console.log("Notification already sent, skipping...");
       return;
     }
 
     try {
-      const friendRequestSnapshot = await db.ref(`/users/${userId}/friends/${requesterId}`).once("value");
+      // Fetch the requester's friend request data from the sender's 'sent_requests' node
+      const friendRequestSnapshot = await db.ref(`/users/${userId}/sent_requests/${requesterId}`).once("value");
       const friendRequestData = friendRequestSnapshot.val();
 
       if (!friendRequestData) {
-        console.error("Friend request data not found:", friendRequestData);
+        console.error("Friend request data not found for sender:", friendRequestData);
         return;
       }
 
+      // Extract the username of the sender to be used in the notification
       const username = friendRequestData.requesterUsername || "Someone";
 
-      const receiverSnapshot = await db.ref(`/users/${userId}/notificationToken`).once("value");
+      const userRecord = await admin.auth().getUser(userId);
+      const userPhoto = userRecord.photoURL || placeholderImage;
+
+      // Fetch the notification token of the receiver from their 'notificationToken' field
+      const receiverSnapshot = await db.ref(`/users/${requesterId}/notificationToken`).once("value");
       const notificationToken = receiverSnapshot.val();
 
       if (!notificationToken) {
-        console.error("Notification token not found for user:", userId);
+        console.error("Notification token not found for user:", requesterId);
         return;
       }
 
+      // Construct the notification message
       const message = {
         token: notificationToken,
         data: {
+          messageId: uuidv4(),
+          read: "false",
           title: "New Friend Request",
+          userPhoto: userPhoto,
           body: `${username} sent you a friend request`,
-          click_action: "FLUTTER_NOTIFICATION_CLICK",
-          userId: requesterId,
+          notification_type: "friend_request",
+          userId: userId,
         },
       };
 
+      // Send the notification via Firebase Cloud Messaging (FCM)
       await messaging.send(message);
       console.log("Notification sent successfully");
-
-      await db.ref(`/users/${userId}/friends/${requesterId}`).update({notificationSent: true});
+      await db.ref(`/users/${requesterId}/received_requests/${userId}`).set(message.data);
     } catch (error) {
       console.error("Error handling notification:", error);
     }

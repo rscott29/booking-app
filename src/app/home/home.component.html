@@ -27,6 +27,9 @@
   </button>
   <span class="flex-1-auto"></span>
   <button
+  [matBadgeHidden]="notificationStore.unreadCount() == 0" 
+  [matBadge]="notificationStore.unreadCount()"
+  matBadgeSize="large"
     (click)="openNotificationsOverlay()"
     class="m-r-6"
     mat-icon-button
