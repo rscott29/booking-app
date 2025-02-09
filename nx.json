@@ -21,9 +21,7 @@
   },
   "defaultBase": "master",
   "namedInputs": {
-    "sharedGlobals": [
-      "{workspaceRoot}/.circleci/config.yml"
-    ],
+    "sharedGlobals": [],
     "default": [
       "{projectRoot}/**/*",
       "sharedGlobals"

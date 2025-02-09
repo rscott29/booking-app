@@ -23,9 +23,7 @@ export class ProfileMenuComponent implements OnInit {
     private authService: AuthService
   ) {}
   ngOnInit(): void {
-    if (!this.data) {
-      console.error('Data is undefined');
-    }
+   
   }
 
   close() {

@@ -21,22 +21,24 @@ import { provideHttpClient } from '@angular/common/http';
 import { NotificationStore } from './shared/components/ui/notifications/state/notification.store';
 import { AppStore } from './app.store';
 
+export const firebaseConfig = {
+  projectId: 'booking-app-71ee7',
+  appId: '1:137744105738:web:672e10930e2d66b3bfbaf3',
+  storageBucket: 'booking-app-71ee7.appspot.com',
+  apiKey: 'AIzaSyDKKKq2aGrcP9MwnJbMX9Rw-JguZ5ZqOQo',
+  authDomain: 'booking-app-71ee7.firebaseapp.com',
+  messagingSenderId: '137744105738',
+  measurementId: 'G-XBT7T9R8BT',
+}
 
 export const appConfig: ApplicationConfig = {
+
   providers: [
     provideHttpClient(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideClientHydration(),
-    provideFirebaseApp(() => initializeApp({
-        projectId: 'booking-app-71ee7',
-        appId: '1:137744105738:web:672e10930e2d66b3bfbaf3',
-        storageBucket: 'booking-app-71ee7.appspot.com',
-        apiKey: 'AIzaSyDKKKq2aGrcP9MwnJbMX9Rw-JguZ5ZqOQo',
-        authDomain: 'booking-app-71ee7.firebaseapp.com',
-        messagingSenderId: '137744105738',
-        measurementId: 'G-XBT7T9R8BT',
-    })),
+    provideFirebaseApp(() => initializeApp(firebaseConfig)),
     provideAuth(() => getAuth()),
     provideAnalytics(() => getAnalytics()),
     ScreenTrackingService,
