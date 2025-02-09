@@ -5,12 +5,11 @@ import { MatListModule } from '@angular/material/list';
 
 
 @Component({
-  selector: 'app-messages',
-  standalone: true,
-  imports: [MatIconModule, MatListModule, MatButtonModule],
-  templateUrl: './messages.component.html',
-  styleUrl: './messages.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-messages',
+    imports: [MatIconModule, MatListModule, MatButtonModule],
+    templateUrl: './messages.component.html',
+    styleUrl: './messages.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MessagesComponent {
   @Input() data:any;

@@ -18,13 +18,11 @@ import { getDatabase } from '@angular/fire/database';
 
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  providers: [MessagingService],
-  imports: [RouterOutlet, CommonModule],
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-
+    selector: 'app-root',
+    providers: [MessagingService],
+    imports: [RouterOutlet, CommonModule],
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
   title = 'booking-app';

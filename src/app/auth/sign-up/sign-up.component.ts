@@ -14,20 +14,19 @@ import { AuthService } from '../login/auth.service';
 import { Router, RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-sign-up',
-  standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MatButtonModule,
-    MatFormField,
-    MatInputModule,
-    MatCardModule,
-    RouterLink
-  ],
-  templateUrl: './sign-up.component.html',
-  styleUrl: './sign-up.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-sign-up',
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        MatButtonModule,
+        MatFormField,
+        MatInputModule,
+        MatCardModule,
+        RouterLink
+    ],
+    templateUrl: './sign-up.component.html',
+    styleUrl: './sign-up.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SignUpComponent {
   signUpForm: FormGroup;

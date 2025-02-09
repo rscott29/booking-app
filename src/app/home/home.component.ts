@@ -43,30 +43,28 @@ export interface MenuItems {
 }
 
 @Component({
-  selector: 'app-home',
-  standalone: true,
-  imports: [
-    BreadcrumbComponent,
-    CommonModule,
-    NgOptimizedImage,
-    MatButtonModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatToolbarModule,
-    MatSidenavModule,
-    MatListModule,
-    MatCardModule,
-    MatBadgeModule,
-    ReactiveFormsModule,
-    NgScrollbarModule,
-    RouterLink,
-    RouterLinkActive,
-  ],
-
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-home',
+    imports: [
+        BreadcrumbComponent,
+        CommonModule,
+        NgOptimizedImage,
+        MatButtonModule,
+        MatInputModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatToolbarModule,
+        MatSidenavModule,
+        MatListModule,
+        MatCardModule,
+        MatBadgeModule,
+        ReactiveFormsModule,
+        NgScrollbarModule,
+        RouterLink,
+        RouterLinkActive,
+    ],
+    templateUrl: './home.component.html',
+    styleUrl: './home.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomeComponent {
   showFiller = false;

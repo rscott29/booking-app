@@ -6,12 +6,11 @@ import { RouterLink } from '@angular/router';
 
 
 @Component({
-  selector: 'app-breadcrumb',
-  standalone: true,
-  imports: [CommonModule, RouterLink],
-  templateUrl: './breadcrumb.component.html',
-  styleUrl: './breadcrumb.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-breadcrumb',
+    imports: [CommonModule, RouterLink],
+    templateUrl: './breadcrumb.component.html',
+    styleUrl: './breadcrumb.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BreadcrumbComponent {
   currentRoute$: Observable<string[] | null> | undefined

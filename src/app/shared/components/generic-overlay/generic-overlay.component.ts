@@ -13,12 +13,11 @@ import { ComponentType } from '@angular/cdk/portal';
 
 
 @Component({
-  selector: 'app-generic-overlay',
-  standalone: true,
-  imports: [NgScrollbarModule, MatButtonModule, MatIconModule],
-  templateUrl: './generic-overlay.component.html',
-  styleUrl: './generic-overlay.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-generic-overlay',
+    imports: [NgScrollbarModule, MatButtonModule, MatIconModule],
+    templateUrl: './generic-overlay.component.html',
+    styleUrl: './generic-overlay.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GenericOverlayComponent implements OnInit {
   @ViewChild('dynamicComponentContainer', {
