@@ -54,7 +54,7 @@ export class MessagingService {
       });
   }
 
-  private saveToken(userId: string, token: string) {
+   saveToken(userId: string, token: string) {
     if (!token || !this.db) return;
     const tokenRef = ref(this.db, `users/${userId}/notificationToken`);
     set(tokenRef, token)
@@ -65,14 +65,14 @@ export class MessagingService {
   sendFriendRequest(friendId: string) {
     const userId = this.appStore.currentUser()?.uid;
     const userName = this.appStore.currentUser()?.displayName;
-  
+
     console.log(`Sending request to ${friendId} from ${userId}`);
-  
+
     if (userId && userName) {
       // Prevent duplicate requests
       const db = getDatabase();
       const userFriendsRef = ref(db, `/users/${userId}/sent_requests/${friendId}`);
-  
+
       get(userFriendsRef)
         .then((snapshot) => {
           if (!snapshot.exists()) {
@@ -91,14 +91,14 @@ export class MessagingService {
         });
     }
   }
-  
-  
+
+
 
   receiveMessage() {
     if (!this.messaging) return;
 
     onMessage(this.messaging, (payload) => {
-     
+
       if (!this.isValidPayload(payload)) {
         console.error('Invalid payload:', payload);
         return;
@@ -113,7 +113,7 @@ export class MessagingService {
 
   handleBackgroundMessage(newNotification: NotificationMessage) {
     // Pass the notification to a common handler
-    
+
     this.addNotificationToStore(newNotification);
   }
 

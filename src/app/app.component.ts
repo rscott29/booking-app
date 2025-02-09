@@ -21,7 +21,7 @@ import { getDatabase } from '@angular/fire/database';
   selector: 'app-root',
   standalone: true,
   providers: [MessagingService],
-  imports: [RouterLink, RouterOutlet, CommonModule, MatProgressSpinner],
+  imports: [RouterOutlet, CommonModule],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 
@@ -45,7 +45,7 @@ export class AppComponent implements OnInit {
     private messagingService: MessagingService,
 
   ) {
- 
+
     if (platformService.isBrowser()) {
       authService
         .getAuthState()
@@ -56,7 +56,7 @@ export class AppComponent implements OnInit {
           } else if (isLoggedIn === false) {
             this.router.navigate(['/login']);
           }
-        }); 
+        });
     }
 
     if (isPlatformServer(this.platformId)) {
@@ -70,17 +70,17 @@ export class AppComponent implements OnInit {
         navigator.serviceWorker
           .register('firebase-messaging-sw.js')
           .then((registration) => {
-        
+
             this.messagingService.receiveMessage();
-    
+
           })
           .catch((error) => {
             console.error('ServiceWorker registration failed: ', error);
           });
           navigator.serviceWorker.addEventListener('message', (event) => {
-           
+
             if (event.data && event.data.type === 'BACKGROUND_NOTIFICATION') {
-         
+
               this.messagingService.handleBackgroundMessage(event.data.message);
             }
           });

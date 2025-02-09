@@ -9,14 +9,13 @@ import {
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { DatePipe, JsonPipe } from '@angular/common';
 import { ComponentType } from '@angular/cdk/portal';
 
 
 @Component({
   selector: 'app-generic-overlay',
   standalone: true,
-  imports: [NgScrollbarModule, MatButtonModule, MatIconModule, DatePipe],
+  imports: [NgScrollbarModule, MatButtonModule, MatIconModule],
   templateUrl: './generic-overlay.component.html',
   styleUrl: './generic-overlay.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -28,7 +27,7 @@ export class GenericOverlayComponent implements OnInit {
   })
   dynamicComponentContainer: ViewContainerRef | undefined;
   @Input() componentType: ComponentType<any> | undefined;
-  @Input() data: any;
+  @Input() data = { showTitle: false, title: '' }
 
   constructor() {}
 
