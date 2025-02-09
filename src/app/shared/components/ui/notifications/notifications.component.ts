@@ -9,11 +9,10 @@ import { NotificationActionsService } from './notification-actions/notification-
 
 
 @Component({
-  selector: 'app-notifications',
-  templateUrl: './notifications.component.html',
-  styleUrl: './notifications.component.scss',
-  standalone: true,
-  imports: [MatListModule, MatButtonModule, NotificationActionsComponent]
+    selector: 'app-notifications',
+    templateUrl: './notifications.component.html',
+    styleUrl: './notifications.component.scss',
+    imports: [MatListModule, MatButtonModule, NotificationActionsComponent]
 })
 export class NotificationsComponent implements OnInit {
 

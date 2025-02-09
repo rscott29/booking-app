@@ -5,11 +5,10 @@ import { NotificationAction, NotificationActions } from './enums/notification-ac
 import { NotificationTypes } from './enums/notification-types.enum';
 
 @Component({
-  selector: 'app-notification-actions',
-  standalone: true,
-  imports: [MatButtonModule],
-  templateUrl: './notification-actions.component.html',
-  styleUrl: './notification-actions.component.scss'
+    selector: 'app-notification-actions',
+    imports: [MatButtonModule],
+    templateUrl: './notification-actions.component.html',
+    styleUrl: './notification-actions.component.scss'
 })
 export class NotificationActionsComponent {
 

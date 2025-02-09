@@ -7,12 +7,11 @@ import { OverlayService } from '../../overlay.service';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-  selector: 'app-profile-menu',
-  standalone: true,
-  imports: [MatIconModule, MatButtonModule, NgScrollbarModule],
-  templateUrl: './profile-menu.component.html',
-  styleUrl: './profile-menu.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-profile-menu',
+    imports: [MatIconModule, MatButtonModule, NgScrollbarModule],
+    templateUrl: './profile-menu.component.html',
+    styleUrl: './profile-menu.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProfileMenuComponent implements OnInit {
   @Input() data: any;

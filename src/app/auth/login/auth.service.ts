@@ -3,6 +3,7 @@ import {
   Auth,
   FacebookAuthProvider,
   GoogleAuthProvider,
+  User,
   UserCredential,
   authState,
   createUserWithEmailAndPassword,
@@ -38,9 +39,9 @@ export class AuthService {
   private appStore = inject(AppStore)
 
   constructor(private router: Router) {
-      authState(this.auth).pipe(takeUntilDestroyed()).subscribe((user: boolean | null) => {
-        this.authStateSubject.next(!!user)
-      })
+    authState(this.auth).pipe(takeUntilDestroyed()).subscribe((user: User | null) => {
+      this.authStateSubject.next(!!user); // This will convert `User | null` to a boolean
+    });
   }
 
   getAuthState(): Observable<boolean | null> {
@@ -55,7 +56,7 @@ export class AuthService {
         this.messagingService.requestPermission(user.uid);
         //TODO: update to set user global app state instead
         this.appStore.setCurrentUser(user)
-      
+
       } else {
         this.appStore.clearUser();
       }
@@ -72,10 +73,10 @@ export class AuthService {
         this.messagingService.requestPermission(user.uid);
 
         //TODO: update to set user global app state instead
-     
+
       }
     });
-  
+
     return userCredential;
   }
 
@@ -111,7 +112,7 @@ export class AuthService {
       })
     );
   }
-  
+
   public logout(): Promise<void> {
     if (this.platformService.isBrowser()) {
       localStorage.removeItem('remember_me');

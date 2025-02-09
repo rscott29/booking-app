@@ -11,21 +11,20 @@ import { Subject, debounceTime } from 'rxjs';
 import { OverlayService } from '../../overlay.service';
 
 @Component({
-  selector: 'app-search',
-  standalone: true,
-  imports: [
-    MatFormFieldModule,
-    MatButtonModule,
-    MatIconModule,
-    MatInputModule,
-    MatDividerModule,
-    FormsModule,
-    ReactiveFormsModule,
-    RouterLink,
-  ],
-  templateUrl: './search.component.html',
-  styleUrl: './search.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-search',
+    imports: [
+        MatFormFieldModule,
+        MatButtonModule,
+        MatIconModule,
+        MatInputModule,
+        MatDividerModule,
+        FormsModule,
+        ReactiveFormsModule,
+        RouterLink,
+    ],
+    templateUrl: './search.component.html',
+    styleUrl: './search.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SearchComponent implements OnInit {
   inputValue: string = '';

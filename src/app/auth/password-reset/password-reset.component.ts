@@ -8,19 +8,18 @@ import { RouterLink } from '@angular/router';
 import { AuthService } from '../login/auth.service';
 
 @Component({
-  selector: 'app-password-reset',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    RouterLink,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-  ],
-  templateUrl: './password-reset.component.html',
-  styleUrl: './password-reset.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-password-reset',
+    imports: [
+        ReactiveFormsModule,
+        RouterLink,
+        MatCardModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+    ],
+    templateUrl: './password-reset.component.html',
+    styleUrl: './password-reset.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PasswordResetComponent {
   email = new FormControl('');

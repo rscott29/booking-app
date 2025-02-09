@@ -19,23 +19,22 @@ import { RouterLink } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  selector: 'app-login',
-  standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatInputModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatButtonModule,
-    MatIconModule,
-    MatCheckboxModule,
-    RouterLink,
-  ],
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-login',
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatInputModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatButtonModule,
+        MatIconModule,
+        MatCheckboxModule,
+        RouterLink,
+    ],
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent implements OnDestroy {
   private readonly destroy$ = new Subject<void>();
